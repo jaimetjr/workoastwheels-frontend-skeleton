@@ -33,6 +33,7 @@ export function AdditionalFilters() {
       setVehicleClass([event.target.value]);
     } else {
       form.setValue("classification", []);
+      setVehicleClass([]);
     }
   };
 
@@ -44,6 +45,7 @@ export function AdditionalFilters() {
       setVehicleMake([event.target.value]);
     } else {
       form.setValue("make", []);
+      setVehicleMake([]);
     }
   };
 
@@ -145,6 +147,7 @@ export function AdditionalFilters() {
               <FormControl style={{ minWidth: "100px" }}>
                 <Input
                   type="number"
+                  min={0}
                   value={passenger}
                   onChange={handleMinimumPassenger}
                 />
