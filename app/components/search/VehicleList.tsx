@@ -65,7 +65,6 @@ export function VehicleList() {
       keepPreviousData: true,
     },
   );
-
   if (searchResponse.vehicles.length === 0) {
     return (
       <div className="flex justify-center items-center h-32">
@@ -78,31 +77,58 @@ export function VehicleList() {
 
   return (
     <div>
-      <ul className="space-y-4">
+      <div className="grid grid-cols-2 gap-4 justify-between">
         {searchResponse.vehicles.map((vehicle) => {
           const bookNowParams = new URLSearchParams({
             id: vehicle.id,
             start: startDateTime.toISOString(),
             end: endDateTime.toISOString(),
           });
-
           return (
-            <div key={vehicle.id} className="flex gap-6 items-center">
-              {vehicle.make} {vehicle.model}
-              <Button asChild className="mt-2 w-full sm:w-auto">
-                <Link
-                  to={{
-                    pathname: "review",
-                    search: bookNowParams.toString(),
-                  }}
-                >
-                  Book now
-                </Link>
-              </Button>
+            <div key={vehicle.id} className="border p-5">
+              <div className="flex flex-col items-center">
+                <img
+                  src={vehicle.thumbnail_url}
+                  alt={`${vehicle.make} ${vehicle.model}`}
+                  className="w-full max-w-[140px] rounded-full bg-blue-50 p-4 mb-4"
+                />
+              </div>
+              <div className="flex flex-col ml-4 items-center md:items-start">
+                <h2 className="text-3xl font-bold text-center md:text-left leading-tight">
+                  {vehicle.make} {vehicle.model}
+                </h2>
+                <dl className="max-w-lg md:max-w-unset grid grid-cols-2 gap-12 mt-4">
+                  <div>
+                    <dt className="text-sm text-gray-600">Hourly Price</dt>
+                    <dd>
+                      ${parseFloat(vehicle.hourly_rate_cents.toString()) / 100}
+                      /hr
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-gray-600">
+                      Maximum passenger capacity
+                    </dt>
+                    <dd>{vehicle.max_passengers}</dd>
+                  </div>
+                </dl>
+              </div>
+              <div>
+                <Button asChild className="mt-2 w-full sm:w-auto">
+                  <Link
+                    to={{
+                      pathname: "review",
+                      search: bookNowParams.toString(),
+                    }}
+                  >
+                    Reserve now
+                  </Link>
+                </Button>
+              </div>
             </div>
           );
         })}
-      </ul>
+      </div>
       <PaginationButtons data={searchResponse.pagination} />
     </div>
   );

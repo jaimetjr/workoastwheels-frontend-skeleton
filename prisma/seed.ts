@@ -238,6 +238,7 @@ async function checkDatabase() {
     await prisma.vehicle.findMany();
     await prisma.reservation.findMany();
   } catch (e) {
+    console.log(e);
     throw new Error(
       "Error connecting to database. Have you run `npm run db:init`?",
     );
